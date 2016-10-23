@@ -23,7 +23,18 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.13'
 
     // Use TestNG framework, also requires calling test.useTestNG() below
-    testCompile 'org.testng:testng:6.9.12'
+    testCompile 'org.testng:testng:6.9.12','com.google.guava:guava:19.0'
 }
 
-test.useTestNG()
+test {
+	testLogging {
+		events 'started', 'passed', 'failed', 'skipped'
+		showStandardStreams = true
+	}
+	useTestNG() {
+		preserveOrder true
+	}
+	reports {
+		html.enabled = true
+	}
+}

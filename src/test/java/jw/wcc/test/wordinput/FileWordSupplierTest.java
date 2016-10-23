@@ -1,4 +1,4 @@
-package jw.wcc.wordinput;
+package jw.wcc.test.wordinput;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import jw.wcc.wordinput.FileWordSupplier;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import static org.testng.AssertJUnit.*;
