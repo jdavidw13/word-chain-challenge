@@ -38,3 +38,9 @@ test {
 		html.enabled = true
 	}
 }
+
+jar {
+	manifest {
+		attributes 'Main-Class': 'jw.wcc.WordChainFinder'
+	}
+}

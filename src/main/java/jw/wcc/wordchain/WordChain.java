@@ -1,8 +1,7 @@
 package jw.wcc.wordchain;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,13 +23,26 @@ public class WordChain {
 	 * Should be ordered such that the first element is the first word group of the chain, and so on...
 	 * @param wordGroups the solution
 	 */
+	public WordChain(Collection<Collection<String>> wordGroups) {
+		List<Set<String>> chain = new ArrayList<>(wordGroups.size());
+		for (Collection<String> wordGroup : wordGroups) {
+			Set<String> group = new HashSet<>(wordGroup);
+			chain.add(group);
+		}
+		wordChain = chain;
+
+	}
+	/**
+	 * Should be ordered such that the first element is the first word group of the chain, and so on...
+	 * @param wordGroups the solution
+	 */
 	public WordChain(Collection<String>... wordGroups) {
 		List<Set<String>> chain = new LinkedList<>();
 		for (Collection<String> wordGroup : wordGroups) {
-			Set<String> group = Collections.unmodifiableSet(new HashSet<>(wordGroup));
+			Set<String> group = new HashSet<>(wordGroup);
 			chain.add(group);
 		}
-		wordChain = Collections.unmodifiableList(chain);
+		wordChain = chain;
 	}
 	/**
 	 * Should be ordered such that the first element is the only word in the first word group of the chain, and so on...
@@ -41,9 +53,9 @@ public class WordChain {
 		for (String word : singleWordGroups) {
 			Set<String> group = new HashSet<>();
 			group.add(word);
-			chain.add(Collections.unmodifiableSet(group));
+			chain.add(group);
 		}
-		wordChain = Collections.unmodifiableList(chain);
+		wordChain = chain;
 	}
 
 	/**

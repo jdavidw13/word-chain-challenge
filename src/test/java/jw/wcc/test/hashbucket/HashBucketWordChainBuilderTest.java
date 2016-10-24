@@ -1,11 +1,10 @@
 package jw.wcc.test.hashbucket;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import jw.wcc.wordchain.WordChain;
-import jw.wcc.wordchain.hashbucket.HashBucketWordChainBuilder;
+import jw.wcc.wordchain.wordbuckets.HashBucketWordChainBuilder;
 import jw.wcc.wordinput.ListWordSupplier;
 import jw.wcc.wordinput.WordSupplier;
 import org.testng.AssertJUnit;
@@ -13,7 +12,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * Tests for {@link jw.wcc.wordchain.hashbucket.HashBucketWordChainBuilder}
+ * Tests for {@link jw.wcc.wordchain.wordbuckets.HashBucketWordChainBuilder}
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
 public class HashBucketWordChainBuilderTest {

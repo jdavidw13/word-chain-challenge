@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ * A convenience WordSupplier implementation used with tests
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
 public class ListWordSupplier implements WordSupplier {
@@ -18,8 +18,13 @@ public class ListWordSupplier implements WordSupplier {
 	}
 
 	@Override
-	public Iterable<String> getWords() {
+	public List<String> getWords() {
 		return words;
+	}
+
+	@Override
+	public String toString() {
+		return "ListWordSupplier{" + "words=" + words + '}';
 	}
 
 }
