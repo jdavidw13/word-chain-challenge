@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import jw.wcc.wordchain.WordChain;
-import jw.wcc.wordchain.wordbuckets.HashBucketWordChainBuilder;
+import jw.wcc.wordchain.wordbuckets.CharacterBucketWordChainBuilder;
 import jw.wcc.wordinput.ListWordSupplier;
 import jw.wcc.wordinput.WordSupplier;
 import org.testng.AssertJUnit;
@@ -12,10 +12,10 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 /**
- * Tests for {@link jw.wcc.wordchain.wordbuckets.HashBucketWordChainBuilder}
+ * Tests for {@link jw.wcc.wordchain.wordbuckets.CharacterBucketWordChainBuilder}
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
-public class HashBucketWordChainBuilderTest {
+public class CharacterBucketWordChainBuilderTest {
 
 	@DataProvider(name = "hbwcb-longestChain-testCases")
 	public Object[][] buildLongestChainTestCases() {
@@ -46,13 +46,18 @@ public class HashBucketWordChainBuilderTest {
 				"longest chain",
 				new ListWordSupplier("x", "xy", "xyz", "a", "ab", "abc", "abcd"),
 				new WordChain("a", "ab", "abc", "abcd").asSet()
+			},
+			{
+				"duplicated letters",
+				new ListWordSupplier("al", "ale", "all", "alel", "allen"),
+				new WordChain("al", "all", "alel", "allen").asSet()
 			}
 		};
 	}
 
 	@Test(dataProvider = "hbwcb-longestChain-testCases")
 	public void testBuildCorrectLongestChain(String testCaseName, WordSupplier wordSupplier, Set<WordChain> expectedChains) {
-		HashBucketWordChainBuilder wcb = new HashBucketWordChainBuilder();
+		CharacterBucketWordChainBuilder wcb = new CharacterBucketWordChainBuilder();
 		Set<WordChain> actualChains = wcb.buildLongestWordChains(wordSupplier);
 		if (!expectedChains.equals(actualChains)) {
 			System.out.printf("TestCase: %s\nExpected: %s\nActual: %s\nWordSupplier: %s\n-----------------------------------------------------------------------\n", testCaseName, expectedChains, actualChains, wordSupplier);

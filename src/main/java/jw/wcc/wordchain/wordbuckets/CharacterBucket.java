@@ -7,17 +7,17 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * A "bucket" of words that hash to the same code per the algorithm.  These words will have the same distinct set of letter i.e. "no" and "on"<br/>
+ * A "bucket" of words that hash to the same code per the algorithm.  These words will have the same set of letters i.e. "no" and "on"<br/>
  * The bucket also contains relations other buckets that would represent "parents" and "children" links in the WordChain
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
-public class DistinctCharacterBucket {
+public class CharacterBucket {
 	private final Set<String> words = new HashSet<>();
 	private final String bucketHash;
-	private final Set<DistinctCharacterBucket> childBuckets = new LinkedHashSet<>();
-	private final Set<DistinctCharacterBucket> parentBuckets = new HashSet<>();
+	private final Set<CharacterBucket> childBuckets = new LinkedHashSet<>();
+	private final Set<CharacterBucket> parentBuckets = new HashSet<>();
 
-	public DistinctCharacterBucket(String bucketHash) {
+	public CharacterBucket(String bucketHash) {
 		if (bucketHash == null || bucketHash.isEmpty()) {
 			throw new IllegalArgumentException("bucketHash is null or empty");
 		}
@@ -40,29 +40,13 @@ public class DistinctCharacterBucket {
 		return bucketHash;
 	}
 
-	/**
-	 * 
-	 * @return the substring of bucketHash minus the last character
-	 */
-	public String getBucketHashFront() {
-		return bucketHash.substring(0, bucketHash.length() - 1);
-	}
-
-	/**
-	 * 
-	 * @return the substring of bucketHash minus the first character
-	 */
-	public String getBucketHashBack() {
-		return bucketHash.substring(1);
-	}
-
-	public void addChildBucket(DistinctCharacterBucket bucket) {
+	public void addChildBucket(CharacterBucket bucket) {
 		if (childBuckets.add(bucket)) {
 			bucket.addParentBucket(this);
 		}
 	}
 
-	public void addParentBucket(DistinctCharacterBucket parentBucket) {
+	public void addParentBucket(CharacterBucket parentBucket) {
 		parentBuckets.add(parentBucket);
 	}
 
@@ -70,11 +54,11 @@ public class DistinctCharacterBucket {
 		return parentBuckets == null || parentBuckets.isEmpty();
 	}
 
-	public Set<DistinctCharacterBucket> getChildBuckets() {
+	public Set<CharacterBucket> getChildBuckets() {
 		return childBuckets;
 	}
 
-	public Set<DistinctCharacterBucket> getParentBuckets() {
+	public Set<CharacterBucket> getParentBuckets() {
 		return parentBuckets;
 	}
 
@@ -96,7 +80,7 @@ public class DistinctCharacterBucket {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final DistinctCharacterBucket other = (DistinctCharacterBucket) obj;
+		final CharacterBucket other = (CharacterBucket) obj;
 		if (!Objects.equals(this.bucketHash, other.bucketHash)) {
 			return false;
 		}

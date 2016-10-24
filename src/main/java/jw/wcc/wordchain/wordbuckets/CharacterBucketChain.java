@@ -9,26 +9,26 @@ import java.util.Objects;
 import jw.wcc.wordchain.WordChain;
 
 /**
- * Represents DistinctCharacterBuckets that will eventually be strung together as a WordChain<br/>
- * The list of DistinctCharacterBuckets should be ordered such that the first bucket represents the first link of the WordChain 
+ * Represents CharacterBuckets that will eventually be strung together as a WordChain<br/>
+ * The list of CharacterBuckets should be ordered such that the first bucket represents the first link of the WordChain 
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
-public class DistinctCharacterBucketChain {
-	private List<DistinctCharacterBucket> bucketChain;
+public class CharacterBucketChain {
+	private List<CharacterBucket> bucketChain;
 
-	public DistinctCharacterBucketChain() { }
-	public DistinctCharacterBucketChain(DistinctCharacterBucket... buckets) {
+	public CharacterBucketChain() { }
+	public CharacterBucketChain(CharacterBucket... buckets) {
 		bucketChain = new LinkedList<>(Arrays.asList(buckets));
 	}
 
-	public void addBucketToChain(DistinctCharacterBucket bucket) {
+	public void addBucketToChain(CharacterBucket bucket) {
 		if (bucketChain == null) {
 			bucketChain = new LinkedList<>();
 		}
 		bucketChain.add(bucket);
 	}
 
-	public List<DistinctCharacterBucket> getBucketChain() {
+	public List<CharacterBucket> getBucketChain() {
 		return bucketChain;
 	}
 
@@ -43,7 +43,7 @@ public class DistinctCharacterBucketChain {
 	public WordChain asWordChain() {
 		Collection<Collection<String>> wordGroups = new LinkedList<>();
 		if (bucketChain != null) {
-			for (DistinctCharacterBucket group : bucketChain) {
+			for (CharacterBucket group : bucketChain) {
 				wordGroups.add(group.getWords());
 			}
 		}
@@ -68,7 +68,7 @@ public class DistinctCharacterBucketChain {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final DistinctCharacterBucketChain other = (DistinctCharacterBucketChain) obj;
+		final CharacterBucketChain other = (CharacterBucketChain) obj;
 		if (!Objects.equals(this.bucketChain, other.bucketChain)) {
 			return false;
 		}

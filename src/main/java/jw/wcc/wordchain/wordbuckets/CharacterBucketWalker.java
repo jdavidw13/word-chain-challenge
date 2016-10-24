@@ -7,14 +7,14 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 /**
- * Used to walk the references between DistinctCharacterBuckets and create complete WordChains
+ * Used to walk the references between CharacterBuckets and create complete WordChains
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
-public class DistinctCharacterBucketWalker implements Callable<Set<DistinctCharacterBucketChain>> {
-	private final Set<DistinctCharacterBucket> visitedBuckets;
-	private final List<DistinctCharacterBucket> currentChain;
+public class CharacterBucketWalker implements Callable<Set<CharacterBucketChain>> {
+	private final Set<CharacterBucket> visitedBuckets;
+	private final List<CharacterBucket> currentChain;
 
-	public DistinctCharacterBucketWalker(DistinctCharacterBucket root) {
+	public CharacterBucketWalker(CharacterBucket root) {
 		visitedBuckets = new HashSet<>();
 		currentChain = new LinkedList<>();
 
@@ -22,9 +22,9 @@ public class DistinctCharacterBucketWalker implements Callable<Set<DistinctChara
 		addToCurrentChain(root);
 	}
 
-	public DistinctCharacterBucketChain nextChain() {
-		DistinctCharacterBucketChain chain = new DistinctCharacterBucketChain();
-		for (DistinctCharacterBucket node : currentChain) {
+	public CharacterBucketChain nextChain() {
+		CharacterBucketChain chain = new CharacterBucketChain();
+		for (CharacterBucket node : currentChain) {
 			chain.addBucketToChain(node);
 		}
 
@@ -34,8 +34,8 @@ public class DistinctCharacterBucketWalker implements Callable<Set<DistinctChara
 	}
 
 	@Override
-	public Set<DistinctCharacterBucketChain> call() throws Exception {
-		Set<DistinctCharacterBucketChain> chains = new HashSet<>();
+	public Set<CharacterBucketChain> call() throws Exception {
+		Set<CharacterBucketChain> chains = new HashSet<>();
 		while (hasMoreChains()) {
 			chains.add(nextChain());
 		}
@@ -46,8 +46,8 @@ public class DistinctCharacterBucketWalker implements Callable<Set<DistinctChara
 	private void advanceNextChain() {
 		visitedBuckets.add(currentChain.remove(currentChain.size() - 1));
 		outer: while (!currentChain.isEmpty()) {
-			DistinctCharacterBucket currentNode = getLast();
-			for (DistinctCharacterBucket child : currentNode.getChildBuckets()) {
+			CharacterBucket currentNode = getLast();
+			for (CharacterBucket child : currentNode.getChildBuckets()) {
 				if (!visitedBuckets.contains(child)) {
 					addToCurrentChain(child);
 					break outer;
@@ -61,10 +61,10 @@ public class DistinctCharacterBucketWalker implements Callable<Set<DistinctChara
 	 * Adds the specified node and every first child node to the current chain
 	 * @param current 
 	 */
-	private void addToCurrentChain(DistinctCharacterBucket current) {
+	private void addToCurrentChain(CharacterBucket current) {
 		currentChain.add(current);
 		while (current.getChildBuckets() != null && !current.getChildBuckets().isEmpty()) {
-			DistinctCharacterBucket child = current.getChildBuckets().iterator().next();
+			CharacterBucket child = current.getChildBuckets().iterator().next();
 			currentChain.add(child);
 			current = child;
 		}
@@ -73,8 +73,8 @@ public class DistinctCharacterBucketWalker implements Callable<Set<DistinctChara
 	public boolean hasMoreChains() {
 		boolean allVisited = true;
 		outer: for (int i = currentChain.size() - 1; i > 0; i--) {
-			DistinctCharacterBucket current = currentChain.get(i);
-			for (DistinctCharacterBucket child : current.getChildBuckets()) {
+			CharacterBucket current = currentChain.get(i);
+			for (CharacterBucket child : current.getChildBuckets()) {
 				if (!visitedBuckets.contains(child)) {
 					allVisited = false;
 					break outer;
@@ -84,7 +84,7 @@ public class DistinctCharacterBucketWalker implements Callable<Set<DistinctChara
 		return !allVisited;
 	}
 
-	private DistinctCharacterBucket getLast() {
+	private CharacterBucket getLast() {
 		return currentChain.get(currentChain.size() - 1);
 	}
 }

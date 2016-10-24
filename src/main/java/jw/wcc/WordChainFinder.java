@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import java.util.Set;
 import jw.wcc.wordchain.WordChain;
 import jw.wcc.wordchain.WordChainBuilder;
-import jw.wcc.wordchain.wordbuckets.HashBucketWordChainBuilder;
+import jw.wcc.wordchain.wordbuckets.CharacterBucketWordChainBuilder;
 import jw.wcc.wordinput.FileWordSupplier;
 
 /**
@@ -45,7 +45,7 @@ public class WordChainFinder {
 
 		System.out.println("Building word chains...");
 		long chainBuildStart = System.currentTimeMillis();
-		WordChainBuilder wcb = new HashBucketWordChainBuilder();
+		WordChainBuilder wcb = new CharacterBucketWordChainBuilder();
 		Set<WordChain> wordChains = wcb.buildLongestWordChains(wordSupplier);
 		long chainBuildTime = System.currentTimeMillis() - chainBuildStart;
 
