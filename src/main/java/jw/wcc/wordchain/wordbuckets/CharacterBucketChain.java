@@ -14,21 +14,21 @@ import jw.wcc.wordchain.WordChain;
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
 public class CharacterBucketChain {
-	private List<CharacterBucket> bucketChain;
+	private List<WordBucket> bucketChain;
 
 	public CharacterBucketChain() { }
-	public CharacterBucketChain(CharacterBucket... buckets) {
+	public CharacterBucketChain(WordBucket... buckets) {
 		bucketChain = new LinkedList<>(Arrays.asList(buckets));
 	}
 
-	public void addBucketToChain(CharacterBucket bucket) {
+	public void addBucketToChain(WordBucket bucket) {
 		if (bucketChain == null) {
 			bucketChain = new LinkedList<>();
 		}
 		bucketChain.add(bucket);
 	}
 
-	public List<CharacterBucket> getBucketChain() {
+	public List<WordBucket> getBucketChain() {
 		return bucketChain;
 	}
 
@@ -43,7 +43,7 @@ public class CharacterBucketChain {
 	public WordChain asWordChain() {
 		Collection<Collection<String>> wordGroups = new LinkedList<>();
 		if (bucketChain != null) {
-			for (CharacterBucket group : bucketChain) {
+			for (WordBucket group : bucketChain) {
 				wordGroups.add(group.getWords());
 			}
 		}
@@ -73,6 +73,11 @@ public class CharacterBucketChain {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "CharacterBucketChain{" + "bucketChain=" + bucketChain + '}';
 	}
 	
 }

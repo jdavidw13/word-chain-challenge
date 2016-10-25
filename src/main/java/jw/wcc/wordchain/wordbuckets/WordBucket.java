@@ -11,13 +11,13 @@ import java.util.Set;
  * The bucket also contains relations other buckets that would represent "parents" and "children" links in the WordChain
  * @author Josiah Wilkerson <jdavidw13@gmail.com>
  */
-public class CharacterBucket {
+public class WordBucket {
 	private final Set<String> words = new HashSet<>();
 	private final String bucketHash;
-	private final Set<CharacterBucket> childBuckets = new LinkedHashSet<>();
-	private final Set<CharacterBucket> parentBuckets = new HashSet<>();
+	private final Set<WordBucket> childBuckets = new LinkedHashSet<>();
+	private final Set<WordBucket> parentBuckets = new HashSet<>();
 
-	public CharacterBucket(String bucketHash) {
+	public WordBucket(String bucketHash) {
 		if (bucketHash == null || bucketHash.isEmpty()) {
 			throw new IllegalArgumentException("bucketHash is null or empty");
 		}
@@ -40,13 +40,13 @@ public class CharacterBucket {
 		return bucketHash;
 	}
 
-	public void addChildBucket(CharacterBucket bucket) {
+	public void addChildBucket(WordBucket bucket) {
 		if (childBuckets.add(bucket)) {
 			bucket.addParentBucket(this);
 		}
 	}
 
-	public void addParentBucket(CharacterBucket parentBucket) {
+	public void addParentBucket(WordBucket parentBucket) {
 		parentBuckets.add(parentBucket);
 	}
 
@@ -54,11 +54,11 @@ public class CharacterBucket {
 		return parentBuckets == null || parentBuckets.isEmpty();
 	}
 
-	public Set<CharacterBucket> getChildBuckets() {
+	public Set<WordBucket> getChildBuckets() {
 		return childBuckets;
 	}
 
-	public Set<CharacterBucket> getParentBuckets() {
+	public Set<WordBucket> getParentBuckets() {
 		return parentBuckets;
 	}
 
@@ -80,11 +80,16 @@ public class CharacterBucket {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final CharacterBucket other = (CharacterBucket) obj;
+		final WordBucket other = (WordBucket) obj;
 		if (!Objects.equals(this.bucketHash, other.bucketHash)) {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "WordBucket{" + "words=" + words + ", bucketHash=" + bucketHash + '}';
 	}
 	
 }

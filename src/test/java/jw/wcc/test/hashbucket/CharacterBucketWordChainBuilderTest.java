@@ -50,7 +50,12 @@ public class CharacterBucketWordChainBuilderTest {
 			{
 				"duplicated letters",
 				new ListWordSupplier("al", "ale", "all", "alel", "allen"),
-				new WordChain("al", "all", "alel", "allen").asSet()
+				new WordChain(
+					Arrays.asList("al"),
+					Arrays.asList("ale", "all"),
+					Arrays.asList("alel"),
+					Arrays.asList("allen")
+				).asSet()
 			}
 		};
 	}

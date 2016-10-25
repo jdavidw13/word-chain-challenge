@@ -17,7 +17,7 @@ import jw.wcc.wordinput.WordSupplier;
 public class CharacterBucketWordChainBuilder implements WordChainBuilder {
 
 	public Set<WordChain> buildLongestWordChains(WordSupplier wordSupplier) {
-		WordLengthCharacterBucketMap bucketMap = new WordLengthCharacterBucketMap();
+		WordLengthBucketMap bucketMap = new WordLengthBucketMap();
 		for (String word : wordSupplier.getWords()) {
 			bucketMap.addWord(word);
 		}

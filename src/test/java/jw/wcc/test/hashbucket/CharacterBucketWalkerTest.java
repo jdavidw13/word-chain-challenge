@@ -1,6 +1,6 @@
 package jw.wcc.test.hashbucket;
 
-import jw.wcc.wordchain.wordbuckets.CharacterBucket;
+import jw.wcc.wordchain.wordbuckets.WordBucket;
 import jw.wcc.wordchain.wordbuckets.CharacterBucketChain;
 import jw.wcc.wordchain.wordbuckets.CharacterBucketWalker;
 import org.testng.AssertJUnit;
@@ -14,18 +14,36 @@ import org.testng.annotations.Test;
 public class CharacterBucketWalkerTest {
 	@DataProvider(name = "dcbw-walk-case-provider")
 	public Object[][] buildWalkTestCases() {
-		CharacterBucket root = new CharacterBucket("rootHash");
-		CharacterBucket rc1 = new CharacterBucket("rc1");
-		CharacterBucket rc2 = new CharacterBucket("rc2");
+		WordBucket root = new WordBucket("rootHash");
+		WordBucket rc1 = new WordBucket("rc1");
+		WordBucket rc2 = new WordBucket("rc2");
 		root.addChildBucket(rc1);
 		root.addChildBucket(rc2);
 
-		CharacterBucket c1c1 = new CharacterBucket("c1c1");
-		CharacterBucket c1c2 = new CharacterBucket("c1c2");
+		WordBucket c1c1 = new WordBucket("c1c1");
+		WordBucket c1c2 = new WordBucket("c1c2");
 		rc1.addChildBucket(c1c1);
 		rc1.addChildBucket(c1c2);
 
 		CharacterBucketWalker walker = new CharacterBucketWalker(root);
+
+		WordBucket al = new WordBucket("al");
+		al.addWord("al");
+
+		WordBucket ale = new WordBucket("ael");
+		ale.addWord("ale");
+		al.addChildBucket(ale);
+
+		WordBucket all = new WordBucket("all");
+		ale.addWord("all");
+		al.addChildBucket(all);
+
+		WordBucket alel = new WordBucket("aell");
+		ale.addWord("alel");
+		all.addChildBucket(alel);
+		ale.addChildBucket(alel);
+
+		CharacterBucketWalker alWalker = new CharacterBucketWalker(al);
 
 		return new Object[][] {
 			{
@@ -42,7 +60,17 @@ public class CharacterBucketWalkerTest {
 				"third chain",
 				new CharacterBucketChain(root, rc2),
 				walker
-			}
+			},
+			{
+				"al first chain",
+				new CharacterBucketChain(al, ale, alel),
+				alWalker
+			},
+			{
+				"al second chain",
+				new CharacterBucketChain(al, all, alel),
+				alWalker
+			},
 		};
 	}
 
@@ -50,5 +78,30 @@ public class CharacterBucketWalkerTest {
 	public void testWalkBuckets(String testCaseName, CharacterBucketChain expectedChain, CharacterBucketWalker walker) {
 		CharacterBucketChain actualChain = walker.nextChain();
 		AssertJUnit.assertEquals(testCaseName, expectedChain, actualChain);
+	}
+
+	public static void main(String[] args) {
+
+		WordBucket al = new WordBucket("al");
+		al.addWord("al");
+
+		WordBucket ale = new WordBucket("ael");
+		ale.addWord("ale");
+		al.addChildBucket(ale);
+
+		WordBucket all = new WordBucket("all");
+		ale.addWord("all");
+		al.addChildBucket(all);
+
+		WordBucket alel = new WordBucket("aell");
+		ale.addWord("alel");
+		all.addChildBucket(alel);
+		ale.addChildBucket(alel);
+
+		CharacterBucketWalker alWalker = new CharacterBucketWalker(al);
+		boolean runIt = true;
+		while (runIt) {
+			System.out.printf("hasMore %s, chain %s\n", alWalker.hasMoreChains(), alWalker.nextChain());
+		}
 	}
 }
